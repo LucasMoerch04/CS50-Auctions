@@ -17,21 +17,10 @@ body{
 }
 
 li:hover{
-    animation: popup 2s ease-in-out;
+    transform: translateY(-10%);
 }
 
-@keyframes popup {
-    0% {
-        transform: translateY(0%);
-    }
-    50% {
-        transform: translateY(-5%);
-        font-size: 130px;
-    }
-    100% {
-        transform: translateY(0%);
-    }
-}
+
 
 li{
     font-family: 'Times New Roman', Times, serif;
@@ -81,6 +70,74 @@ li{
     position: fixed;
     left: 27%;
     top: 55%;
+}
+
+#corner {
+    
+    width: 400px;
+    height: 200px;
+    position: fixed;
+    left: 0%;
+    bottom: 0%;
+}
+
+#square {
+    background-color: red;
+    width: 100px;
+    height: 100px;
+    position: relative;
+    left: 10%;
+    bottom: -50%;
+    animation: floatin 2s;
+}
+@keyframes floatin{
+    from {
+        transform: translateX(-300%);
+    }
+    to{
+        transform: translateX(0%);
+    }
+}
+
+#triangle {
+    width: 0;
+    height: 0;
+    border: 75px solid transparent;
+    border-top: 0;
+    border-bottom: 150px solid yellow;
+    position: relative;
+    left: 50%;
+    bottom: 80%;
+    transform: rotate(160deg);
+    animation: rotate 2s;
+}
+@keyframes rotate {
+    from{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(160deg);
+    }
+}
+
+#circle {
+    background-color: blue;
+    width: 100px;
+    height: 100px;
+    position: relative;
+    left: 70%;
+    bottom: 100%;
+    border-radius: 50%;
+    animation: floatup 2s;
+}
+
+@keyframes floatup{
+    from {
+        transform: translateY(50%);
+    }
+    to{
+        transform: translateY(0%);
+    }
 }
 
 #g1{
