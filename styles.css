@@ -5,15 +5,16 @@ body{
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    height: 100%;
     margin: 0;
-    border: 1px;
+    
 }
 
 .list{
-    position: relative;
-    bottom: 20%;
-    left: -2%;
+    display: flex;
+    width: 50%;
+    margin: 5%;
+    justify-content: center;
 }
 
 li:hover{
@@ -26,18 +27,23 @@ li{
     font-family: 'Times New Roman', Times, serif;
     display: inline-block;
     list-style-type: none;
-    margin: 5px;
+    margin: 0%;
     padding: 0;
     
     
     font-size: 120px;
 }
 
-.search{
+#search{
+    
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: blue;
+    width: 100%;
 }
+
+
 
 #submit{
     font-family: 'Courier New', Courier, monospace;
@@ -46,9 +52,7 @@ li{
     padding: 10px;
     border-width: 0px;
     border-radius: 5px;
-    position: fixed;
-    left: 46%;
-    top: 67%;
+    
     font-weight: bold;
 }
 
@@ -62,18 +66,15 @@ li{
     border-color: bisque;
     border-width: 4px;
     border-radius: 15px;
-    height: 35px;
-    width: 600px;
-    margin: 20px;
+    height: 60%;
+    width: 75%;
     padding-left: 10px;
+
     font-family: 'Courier New', Courier, monospace;
-    position: fixed;
-    left: 27%;
-    top: 55%;
+    
 }
 
 #corner {
-    
     width: 400px;
     height: 200px;
     position: fixed;
