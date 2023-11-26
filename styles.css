@@ -18,7 +18,26 @@ body{
 }
 
 #imageheader {
+    flex-direction: column;   
+}
+
+.advheader {
+    display: flex;
+    width: 100vw;
+    border-bottom: 1px solid red;
     flex-direction: column;
+    height: 12vh;
+    font-size: 48px;
+    padding-left: 5%;
+}
+
+#advheadertext{
+    font-size: 48px;
+}
+
+#advheadersubtext{
+    font-size: 24px;
+    color: grey;
 }
 
 li:hover{
@@ -48,17 +67,24 @@ li,h1{
     height: 10vw;
 }
 
-
-
 .buttons{
     font-family: 'Courier New', Courier, monospace;
     position:fixed;
     left: 40%;
     bottom: 45%;
+    
+}
+
+#imagebuttons{
+    left: 45vw;
+}
+
+#advbuttons{
+    left: 41vw;
 }
 
 #submit, #lucky {
-    background-color: rgb(97, 97, 252);
+    background-color: rgb(134, 134, 255);
     color: white;
     border-radius: 8px;
     padding: 10px;
@@ -77,13 +103,13 @@ li,h1{
     border-color: bisque;
     border-width: 4px;
     border-radius: 15px;
-    height: 30px;
+    height: 40px;
     min-width: 40vw;
     padding-left: 10px;
-    
-    
+    border-width: 2px;
     font-family: 'Courier New', Courier, monospace;
-    
+    position: fixed;
+    top: 42vh;
 }
 
 #corner {
@@ -124,6 +150,10 @@ li,h1{
     right: 10%;
     top: 5%;
     
+}
+
+a:hover{
+    color: rgb(134, 134, 255);
 }
 
 a {
@@ -211,7 +241,8 @@ h2 {
     font-weight: normal;
     font-size: 48px;
     color: rgb(255, 60, 60);
-    margin: 0%;
+    margin-top: 0%;
+    
 }
 
 h2 span {
@@ -224,4 +255,48 @@ h2 span {
     align-items: center;
     position: fixed;
     bottom: 45vh;
+}
+
+#advsearch{
+    display: flex;
+    align-items: left;
+    justify-content: left;
+    height: 50vh;
+    width: 100vw;
+    flex-direction: column;
+}
+
+.advcontainer{
+    display: flex;
+    padding: 0%;
+    position: fixed;
+    left: 20%;
+    bottom: 50%;
+    
+    width: 30vw;
+    margin-bottom: 10px;
+    flex-direction: column;
+}
+
+.advlabels{
+    display: flex;
+    padding: 0%;
+    position: fixed;
+    left: 10%;
+    bottom: 50%;
+    flex-direction: column;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.advcontainer input{
+    min-height: 3vh;
+    min-width: 25vw;
+    margin-top: 5%;
+}
+
+h3{
+    font-size: 18px;
+    position: fixed;
+    left: 10%;
 }
