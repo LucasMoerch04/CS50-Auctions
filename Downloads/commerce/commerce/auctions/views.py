@@ -3,13 +3,17 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
-from .models import User, Listing, Bids
+from datetime import datetime
+
+from .models import CATEGORIES, User, Listing, Bids
 
 
 def index(request):
     return render(request, "auctions/index.html", {
-        'listings': Listing.objects.all()
+        'listings': Listing.objects.all(),
+        'bids': Bids.objects.all()
     })
 
 
@@ -64,19 +68,25 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "auctions/register.html")
-    
+
+@login_required    
 def create_listing_view(request):
     if request.method =="POST":
         title = request.POST["title"]
         description = request.POST["description"]
         starting_bid = request.POST["price"]
         user = request.user
+        imageurl = request.POST["imageurl"]
+        category = request.POST["category"]
+        now = datetime.now()
         
         bid = Bids(bid=int(starting_bid), user=user)
         bid.save()
         
-        listing = Listing(title=title, description=description, price=bid, seller=user)
+        listing = Listing(title=title, description=description, price=bid, seller=user, image = imageurl, category=category, datetime = now)
         listing.save()
         return HttpResponseRedirect(reverse("index"))
         
-    return render(request, "auctions/create_listing.html")
+    return render(request, "auctions/create_listing.html",{
+        "CATEGORIES": CATEGORIES
+    })
