@@ -10,7 +10,7 @@ class Bids(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name='userBid')
     
 class Listing(models.Model):
-    seller = models.ForeignKey(User, on_delete=models.CASCADE)
+    seller = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name='user')
     title = models.CharField(max_length=64)
     description = models.CharField(max_length=600)
     price = models.ForeignKey(Bids, on_delete=models.CASCADE, blank=True, null=True)

@@ -65,3 +65,18 @@ def register(request):
     else:
         return render(request, "auctions/register.html")
     
+def create_listing_view(request):
+    if request.method =="POST":
+        title = request.POST["title"]
+        description = request.POST["description"]
+        starting_bid = request.POST["price"]
+        user = request.user
+        
+        bid = Bids(bid=int(starting_bid), user=user)
+        bid.save()
+        
+        listing = Listing(title=title, description=description, price=bid, seller=user)
+        listing.save()
+        return HttpResponseRedirect(reverse("index"))
+        
+    return render(request, "auctions/create_listing.html")
