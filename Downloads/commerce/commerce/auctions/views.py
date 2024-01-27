@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 
 from datetime import datetime
 
-from .models import CATEGORIES, User, Listing, Bids
+from .models import CATEGORIES, User, Listing, Bids, Watchlist
 
 
 def index(request):
@@ -90,3 +90,28 @@ def create_listing_view(request):
     return render(request, "auctions/create_listing.html",{
         "CATEGORIES": CATEGORIES
     })
+    
+def listing_page_view(request, listing_id, isOnWatchlist = False):
+    if request.method == "GET":
+        listing = Listing.objects.get(id=listing_id) 
+        
+        return render(request, "auctions/listing_page.html", {
+            "listing": listing,
+            'bids': Bids.objects.all(),
+            'isOnWatchlist': isOnWatchlist
+            })
+        
+def edit_watchlist_view(request, listing_id):
+    if request.method == "POST":
+        user = request.user
+        try: 
+            watchlist = Watchlist.objects.get(user=user, item_id=listing_id)
+            watchlist.delete()
+            isOnWatchlist = False
+        except Watchlist.DoesNotExist:
+            addToWatchlist = Watchlist(user=user, item_id = listing_id, checked=True)
+            addToWatchlist.save()
+            isOnWatchlist = True
+        
+            
+        return HttpResponseRedirect(reverse("listing_page", args=(listing_id, isOnWatchlist,)))

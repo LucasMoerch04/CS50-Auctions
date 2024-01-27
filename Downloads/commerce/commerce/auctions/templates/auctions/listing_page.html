@@ -1,0 +1,26 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h1>
+        {{listing.title}}
+    </h1>
+    {% if user.is_authenticated %}
+        <form action="{% url 'edit_watchlist' listing_id=listing.id %}" method="post">
+            {% csrf_token %}
+            {% if isOnWatchlist %}
+                <input class="btn btn-primary" type="submit" value="Remove from Watchlist">
+            {% else %}
+                <input class="btn btn-primary" type="submit" value="Add to Watchlist">
+            {% endif %}
+        </form>
+    {% endif %}
+
+    {% if listing.image != None%}
+        <img src="{{listing.image}}">
+    {% endif %}
+    <h3> 
+        {{listing.price.bid}}
+    </h3>
+    {{listing.description}}
+    {{listing.datetime}}
+{% endblock %}

@@ -16,6 +16,12 @@ class Bids(models.Model):
     bid = models.IntegerField(default=0)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name='userBid')
     
+class Watchlist(models.Model):
+    item_id = models.IntegerField(blank=True, null=True)    
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name='userWatchlist')
+    checked = models.BooleanField(blank=True, null=True)
+
+    
 class Listing(models.Model):
     seller = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name='user')
     title = models.CharField(max_length=64)
