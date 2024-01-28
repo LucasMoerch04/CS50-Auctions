@@ -95,6 +95,15 @@ def listing_page_view(request, listing_id, isOnWatchlist = False):
     if request.method == "GET":
         listing = Listing.objects.get(id=listing_id) 
         
+        user = request.user
+        try: 
+            Watchlist.objects.get(user=user, item_id=listing_id)
+            isOnWatchlist = True
+        except Watchlist.DoesNotExist:
+            isOnWatchlist = False
+        
+        
+        
         return render(request, "auctions/listing_page.html", {
             "listing": listing,
             'bids': Bids.objects.all(),
@@ -107,11 +116,9 @@ def edit_watchlist_view(request, listing_id):
         try: 
             watchlist = Watchlist.objects.get(user=user, item_id=listing_id)
             watchlist.delete()
-            isOnWatchlist = False
         except Watchlist.DoesNotExist:
-            addToWatchlist = Watchlist(user=user, item_id = listing_id, checked=True)
+            addToWatchlist = Watchlist(user=user, item_id = listing_id, checked=False)
             addToWatchlist.save()
-            isOnWatchlist = True
         
             
-        return HttpResponseRedirect(reverse("listing_page", args=(listing_id, isOnWatchlist,)))
+        return HttpResponseRedirect(reverse("listing_page", args=(listing_id,)))
