@@ -18,7 +18,7 @@ class Bids(models.Model):
     
 class Watchlist(models.Model):
     item_id = models.IntegerField(blank=True, null=True)    
-    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name='userWatchlist')
+    user = models.ManyToManyField(User, blank=True, related_name="watchlistUser")
     checked = models.BooleanField(blank=True, null=True)
 
     

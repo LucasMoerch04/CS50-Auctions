@@ -117,8 +117,28 @@ def edit_watchlist_view(request, listing_id):
             watchlist = Watchlist.objects.get(user=user, item_id=listing_id)
             watchlist.delete()
         except Watchlist.DoesNotExist:
-            addToWatchlist = Watchlist(user=user, item_id = listing_id, checked=False)
-            addToWatchlist.save()
-        
+            addToWatchlist = Watchlist.objects.create(item_id = listing_id, checked=False)
+            addToWatchlist.user.add(user)
+
             
         return HttpResponseRedirect(reverse("listing_page", args=(listing_id,)))
+
+def watchlist_view(request):
+    currentUser = request.user
+    
+    try: 
+        watchlist = currentUser.watchlistUser.all()
+        
+        print(watchlist)
+          # Get the IDs of the items in the watchlist
+        item_ids = [item.item_id for item in watchlist]
+
+        # Filter Listing objects based on the IDs in the watchlist
+        listings = Listing.objects.filter(id__in=item_ids)
+
+        return render(request, "auctions/watchlist.html", {
+            "listings": listings
+        })
+        
+    except Watchlist.DoesNotExist:
+        print("error")
