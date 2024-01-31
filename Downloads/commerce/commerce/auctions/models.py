@@ -16,7 +16,8 @@ class Bids(models.Model):
     bid = models.IntegerField(default=0)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name='userBid')
     
-    
+
+
 class Watchlist(models.Model):
     item_id = models.IntegerField(blank=True, null=True)    
     user = models.ManyToManyField(User, blank=True, related_name="watchlistUser")
@@ -31,4 +32,9 @@ class Listing(models.Model):
     category = models.CharField(max_length=20, choices = CATEGORIES, default="Category", null=True, blank=True)
     image = models.URLField(max_length=200, null=True, blank=True)
     datetime = models.DateTimeField(null=True, blank=True)
+    
+class Comment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name='userComment')
+    comment = models.CharField(max_length=300)
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE, blank=True, null=True, related_name='listingComment')
     

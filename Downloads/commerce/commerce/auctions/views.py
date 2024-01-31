@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 
 from datetime import datetime
 
-from .models import CATEGORIES, User, Listing, Bids, Watchlist
+from .models import CATEGORIES, User, Listing, Bids, Watchlist, Comment
 
 
 def index(request):
@@ -96,8 +96,22 @@ def listing_page_view(request, listing_id, isOnWatchlist = False):
         listing = Listing.objects.get(id=listing_id) 
         
         bidMessage = request.GET.get('bidMessage', None)
+        latestBidder = request.GET.get('bidder', None)
         
         user = request.user
+        
+        isOwner = False
+        try: 
+            comments = Comment.objects.filter(listing=listing)
+            print(comments)
+        except Comment.DoesNotExist:
+            comments = None
+            print("fail")
+        
+        
+        if user == listing.seller:
+            isOwner = True
+        
         try: 
             Watchlist.objects.get(user=user, item_id=listing_id)
             isOnWatchlist = True
@@ -110,7 +124,10 @@ def listing_page_view(request, listing_id, isOnWatchlist = False):
             "listing": listing,
             'bids': Bids.objects.all(),
             'isOnWatchlist': isOnWatchlist,
-            'bidMessage': bidMessage
+            'bidMessage': bidMessage,
+            'isOwner': isOwner,
+            'latestBidder': latestBidder,
+            'comments': comments
             })
         
 def edit_watchlist_view(request, listing_id):
@@ -156,8 +173,26 @@ def bid(request, listing_id):
             
             listing.price = bid
             listing.save()
+            
+            bidder = user
             bidMessage = "Your bid has been placed"
         else:
             bidMessage = "Your bid must be higher than current bid"
     
-        return HttpResponseRedirect(reverse("listing_page", args=(listing_id,)) + f"?bidMessage={bidMessage}")
+        return HttpResponseRedirect(reverse("listing_page", args=(listing_id,)) + f"?bidMessage={bidMessage}&bidder={bidder}")
+    
+    
+def comment(request, listing_id):
+    if request.method == "POST":
+        user = request.user
+        
+        comment = request.POST.get("comment")
+        
+        listing = Listing.objects.get(pk=listing_id)
+        
+        saveComment = Comment(user=user, listing=listing, comment=comment)
+        saveComment.save()
+        
+        return HttpResponseRedirect(reverse("listing_page", args=(listing_id,)))
+        
+        

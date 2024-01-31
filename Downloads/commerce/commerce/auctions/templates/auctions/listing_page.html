@@ -13,15 +13,17 @@
                 <input class="btn btn-primary" type="submit" value="Add to Watchlist">
             {% endif %}
         </form>
-        <form action="{% url 'bid' listing_id=listing.id %}" method="post">
-            {% csrf_token %}
-            <input class="form-control" type="number" min=0 name="bid" placeholder="Enter bid amount">
-            <input class="btn btn-primary" type="submit" value="Place bid">
-        </form>
-        {% if bidMessage %}
-            <div id="bidMessage">
-                {{ bidMessage }}
-            </div>
+        {% if not isOwner %}
+            <form action="{% url 'bid' listing_id=listing.id %}" method="post">
+                {% csrf_token %}
+                <input class="form-control" type="number" min=0 name="bid" placeholder="Enter bid amount">
+                <input class="btn btn-primary" type="submit" value="Place bid">
+            </form>
+            {% if bidMessage %}
+                <div id="bidMessage">
+                    {{ bidMessage }}
+                </div>
+            {% endif %}
         {% endif %}
     {% endif %}
 
@@ -29,8 +31,30 @@
         <img src="{{listing.image}}">
     {% endif %}
     <h3> 
-        {{listing.price.bid}}
+        {% if latestBidder%}
+            Latest bid: {{listing.price.bid}} by {{latestBidder}}
+        {% else %}
+            Starting price: {{listing.price.bid}}
+        {% endif %}
     </h3>
     {{listing.description}}
     {{listing.datetime}}
+
+    <h2>
+        Write a comment
+    </h2>
+    <form action="{% url 'comment' listing_id=listing.id %}" method="post">
+        {% csrf_token %}
+        <input class="form-control" type="text" name="comment" placeholder="Your comment">
+        <input class="btn btn-primary" type="submit" value="Send comment">
+    </form>
+    {% if comments %}
+        {% for comment in comments %}
+            {{comment.user}} Wrote:
+            {{comment.comment}}
+            <br>
+            <br>
+        {% endfor %}
+    {% endif %}
+
 {% endblock %}
