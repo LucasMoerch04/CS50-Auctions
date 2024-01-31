@@ -13,6 +13,16 @@
                 <input class="btn btn-primary" type="submit" value="Add to Watchlist">
             {% endif %}
         </form>
+        <form action="{% url 'bid' listing_id=listing.id %}" method="post">
+            {% csrf_token %}
+            <input class="form-control" type="number" min=0 name="bid" placeholder="Enter bid amount">
+            <input class="btn btn-primary" type="submit" value="Place bid">
+        </form>
+        {% if bidMessage %}
+            <div id="bidMessage">
+                {{ bidMessage }}
+            </div>
+        {% endif %}
     {% endif %}
 
     {% if listing.image != None%}

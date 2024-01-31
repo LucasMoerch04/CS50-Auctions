@@ -95,6 +95,8 @@ def listing_page_view(request, listing_id, isOnWatchlist = False):
     if request.method == "GET":
         listing = Listing.objects.get(id=listing_id) 
         
+        bidMessage = request.GET.get('bidMessage', None)
+        
         user = request.user
         try: 
             Watchlist.objects.get(user=user, item_id=listing_id)
@@ -107,7 +109,8 @@ def listing_page_view(request, listing_id, isOnWatchlist = False):
         return render(request, "auctions/listing_page.html", {
             "listing": listing,
             'bids': Bids.objects.all(),
-            'isOnWatchlist': isOnWatchlist
+            'isOnWatchlist': isOnWatchlist,
+            'bidMessage': bidMessage
             })
         
 def edit_watchlist_view(request, listing_id):
@@ -129,11 +132,8 @@ def watchlist_view(request):
     try: 
         watchlist = currentUser.watchlistUser.all()
         
-        print(watchlist)
-          # Get the IDs of the items in the watchlist
         item_ids = [item.item_id for item in watchlist]
 
-        # Filter Listing objects based on the IDs in the watchlist
         listings = Listing.objects.filter(id__in=item_ids)
 
         return render(request, "auctions/watchlist.html", {
@@ -142,3 +142,22 @@ def watchlist_view(request):
         
     except Watchlist.DoesNotExist:
         print("error")
+        
+def bid(request, listing_id):
+    if request.method == "POST":
+        userBid = request.POST.get("bid")
+        userBid = int(userBid)
+        user = request.user
+        listing = Listing.objects.get(pk=listing_id)
+        
+        if userBid > listing.price.bid:
+            bid = Bids(bid=userBid, user=user)
+            bid.save()
+            
+            listing.price = bid
+            listing.save()
+            bidMessage = "Your bid has been placed"
+        else:
+            bidMessage = "Your bid must be higher than current bid"
+    
+        return HttpResponseRedirect(reverse("listing_page", args=(listing_id,)) + f"?bidMessage={bidMessage}")

@@ -16,6 +16,7 @@ class Bids(models.Model):
     bid = models.IntegerField(default=0)
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name='userBid')
     
+    
 class Watchlist(models.Model):
     item_id = models.IntegerField(blank=True, null=True)    
     user = models.ManyToManyField(User, blank=True, related_name="watchlistUser")
