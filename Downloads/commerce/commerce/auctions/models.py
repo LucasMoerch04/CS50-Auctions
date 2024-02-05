@@ -32,6 +32,9 @@ class Listing(models.Model):
     category = models.CharField(max_length=20, choices = CATEGORIES, default="Category", null=True, blank=True)
     image = models.URLField(max_length=200, null=True, blank=True)
     datetime = models.DateTimeField(null=True, blank=True)
+    isActive = models.BooleanField(default=True)
+    winner = models.ForeignKey(User, on_delete=models.CASCADE, max_length=64, null=True, blank=True)
+
     
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name='userComment')

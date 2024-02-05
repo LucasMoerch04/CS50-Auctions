@@ -10,12 +10,12 @@ from datetime import datetime
 from .models import CATEGORIES, User, Listing, Bids, Watchlist, Comment
 
 
+
 def index(request):
     return render(request, "auctions/index.html", {
-        'listings': Listing.objects.all(),
+        'listings': Listing.objects.filter(isActive=True),
         'bids': Bids.objects.all()
     })
-
 
 
 def login_view(request):
@@ -69,6 +69,7 @@ def register(request):
     else:
         return render(request, "auctions/register.html")
 
+
 @login_required    
 def create_listing_view(request):
     if request.method =="POST":
@@ -83,13 +84,14 @@ def create_listing_view(request):
         bid = Bids(bid=int(starting_bid), user=user)
         bid.save()
         
-        listing = Listing(title=title, description=description, price=bid, seller=user, image = imageurl, category=category, datetime = now)
+        listing = Listing(title=title, description=description, price=bid, seller=user, image = imageurl, category = category, datetime = now, )
         listing.save()
         return HttpResponseRedirect(reverse("index"))
         
     return render(request, "auctions/create_listing.html",{
         "CATEGORIES": CATEGORIES
     })
+    
     
 def listing_page_view(request, listing_id, isOnWatchlist = False):
     if request.method == "GET":
@@ -120,6 +122,7 @@ def listing_page_view(request, listing_id, isOnWatchlist = False):
         
         
         
+        
         return render(request, "auctions/listing_page.html", {
             "listing": listing,
             'bids': Bids.objects.all(),
@@ -127,8 +130,10 @@ def listing_page_view(request, listing_id, isOnWatchlist = False):
             'bidMessage': bidMessage,
             'isOwner': isOwner,
             'latestBidder': latestBidder,
-            'comments': comments
+            'comments': comments,
+            'user': user
             })
+       
         
 def edit_watchlist_view(request, listing_id):
     if request.method == "POST":
@@ -142,6 +147,7 @@ def edit_watchlist_view(request, listing_id):
 
             
         return HttpResponseRedirect(reverse("listing_page", args=(listing_id,)))
+
 
 def watchlist_view(request):
     currentUser = request.user
@@ -160,6 +166,22 @@ def watchlist_view(request):
     except Watchlist.DoesNotExist:
         print("error")
         
+
+def category_view(request):
+    if request.method == "GET":
+        return render(request, "auctions/categories.html", {
+            'categories': CATEGORIES,
+        })
+
+def category_page_view(request, chosenCategory):
+    if request.method == "GET":
+        
+        listings = Listing.objects.filter(category=chosenCategory)
+        return render(request, "auctions/category_page.html", {
+            'category': chosenCategory,
+            'listings': listings,
+        })
+
 def bid(request, listing_id):
     if request.method == "POST":
         userBid = request.POST.get("bid")
@@ -195,4 +217,14 @@ def comment(request, listing_id):
         
         return HttpResponseRedirect(reverse("listing_page", args=(listing_id,)))
         
+def closeAuction(request, listing_id):
+    if request.method == "POST":
+        listing = Listing.objects.get(pk=listing_id)
+        winner = listing.price.user
+        print(winner)
+        listing.isActive = False
+        listing.winner = winner
+        listing.save()
         
+        return HttpResponseRedirect(reverse("listing_page", args=(listing_id,)))
+

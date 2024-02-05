@@ -13,7 +13,7 @@
                 <input class="btn btn-primary" type="submit" value="Add to Watchlist">
             {% endif %}
         </form>
-        {% if not isOwner %}
+        {% if not isOwner and listing.isActive %}
             <form action="{% url 'bid' listing_id=listing.id %}" method="post">
                 {% csrf_token %}
                 <input class="form-control" type="number" min=0 name="bid" placeholder="Enter bid amount">
@@ -24,7 +24,18 @@
                     {{ bidMessage }}
                 </div>
             {% endif %}
+        {% elif isOwner and listing.isActive%}
+            <form action="{% url 'closeAuction' listing_id=listing.id %}" method="post">
+                {% csrf_token %}
+                <input class="btn btn-primary" type="submit" value="Close auction">
         {% endif %}
+        {% if not listing.isActive %}
+            This Auction has been closed
+            {% if user == listing.winner %}
+                You won the auction, {{listing.winner}}!
+            {% endif %}
+        {% endif %}
+            
     {% endif %}
 
     {% if listing.image != None%}
