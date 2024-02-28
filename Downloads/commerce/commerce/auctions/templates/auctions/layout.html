@@ -9,50 +9,82 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+        <script src="https://kit.fontawesome.com/4f07320577.js" crossorigin="anonymous"></script>
+
+
+        <script>
+            
+            document.addEventListener('DOMContentLoaded', function(){
+                var currentUrl = window.location.pathname;
+
+                document.querySelectorAll(".nav-btn").forEach(function(navBtn) {
+                    var linkUrl = navBtn.getAttribute("href");
+                    console.log(linkUrl)
+                    console.log(currentUrl)
+                    if (currentUrl === linkUrl){
+                        navBtn.classList.add("active");
+                        console.log("works");
+                    };
+                });
+            });
+                
+            
+        </script>
+
     </head>
     <body>
         <div class="logo">
             <h1 id="title">Auctions</h1>
             <h2 id="sub-title">by • Lucas</h2>
         </div>
-        <div>
+        <div id="signin_status">
             {% if user.is_authenticated %}
-                Signed in as <strong>{{ user.username }}</strong>.
+                <div> Signed in as </div> 
+                <strong id="username">{{ user.username }}</strong>
                 <li>
                     <a href="{% url 'logout' %}">Log Out</a>
                 </li>
+            
             {% else %}
                 Not signed in.
             {% endif %}
         </div>
-        <div class="nav-bar">
+        <nav class="nav-bar">
             <div class="nav-two">
-            <ul class="nav-items">
-                <li>
-                    <a href="{% url 'index' %}">Active Listings</a>
-                </li>
-                <li>
-                    <a href="{% url 'category' %}">Categories</a>
-                </li>
-                {% if user.is_authenticated %}
-                <li>   
-                    <a href="{% url 'watchlist' %}"> Your Watchlist</a>
-                </li>
-                <li>
-                    <a href="{% url 'create_listing' %}"> Create listing</a>
-                </li>
-                {% else %}
+                <ul class="nav-items">
+                    <li>
+                        
+                        <a class="nav-btn" href="{% url 'index' %}"><i class="fa-solid fa-gavel"></i></i> Active Listings</a>
+                    </li>
+                    <li>
+                        <a class="nav-btn" href="{% url 'category' %}"><i class="fa-solid fa-list"></i> Categories</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                        <li>   
+                            <a class="nav-btn" href="{% url 'watchlist' %}"><i class="fa-solid fa-eye"></i> Your Watchlist</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+            {% if user.is_authenticated %}
+                <ul class="nav-items">
+                    <ellipse id="dot"></ellipse>
+
+                    <li id="create_listing">
+                        <a href="{% url 'create_listing' %}"><i class="fa-solid fa-2xl fa-plus"></i></a>
+                    </li>
+                </ul>
+            {% else %}
+                <ul class="nav-items">
                     <li>
                         <a href="{% url 'login' %}">Log In</a>
-                        <a href="{% url 'login' %}"> Create listing</a>
                     </li>
                     <li>
                         <a href="{% url 'register' %}">Register</a>
                     </li>
-                {% endif %}
-            </ul>
-            </div>
-        </div>
+                </ul>
+            {% endif %}
+        </nav>
         <hr>
         {% block body %}
         {% endblock %}

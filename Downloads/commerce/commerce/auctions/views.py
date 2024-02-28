@@ -11,10 +11,12 @@ from .models import CATEGORIES, User, Listing, Bids, Watchlist, Comment
 
 
 
+
 def index(request):
     return render(request, "auctions/index.html", {
-        'listings': Listing.objects.filter(isActive=True),
-        'bids': Bids.objects.all()
+        'listings': Listing.objects.filter(isActive=True).order_by('-datetime'),
+        'bids': Bids.objects.all(),
+        
     })
 
 
