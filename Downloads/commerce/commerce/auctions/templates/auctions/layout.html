@@ -13,8 +13,7 @@
 
 
         <script>
-            
-            document.addEventListener('DOMContentLoaded', function(){
+            document.addEventListener('DOMContentLoaded', function() {
                 var currentUrl = window.location.pathname;
 
                 document.querySelectorAll(".nav-btn").forEach(function(navBtn) {
@@ -23,9 +22,8 @@
                     console.log(currentUrl)
                     if (currentUrl === linkUrl){
                         navBtn.classList.add("active");
-                        console.log("works");
                     };
-                });
+                    });
             });
                 
             

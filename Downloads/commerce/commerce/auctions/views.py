@@ -4,20 +4,45 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django import forms
 
 from datetime import datetime
 
 from .models import CATEGORIES, User, Listing, Bids, Watchlist, Comment
 
+sort_by_choices = {"datetime":"Date", "title":"Alphabetical", "price__bid":"Price"}
 
+#Sorting form with choices and asc/desc checkbox
+class sort_form(forms.Form):
+    sort_by = forms.ChoiceField(required=False, label="",choices = sort_by_choices, widget=forms.Select(attrs={'onchange':'this.form.submit()', 'class': 'dropdown'}))
+    asc = forms.BooleanField(label="test", required=False, widget=forms.CheckboxInput(attrs={'onchange':'this.form.submit()', 'class': 'checkbox'}))
 
-
+#Startpage
 def index(request):
-    return render(request, "auctions/index.html", {
-        'listings': Listing.objects.filter(isActive=True).order_by('-datetime'),
-        'bids': Bids.objects.all(),
+    #If sorting form has been used
+    if request.method == "POST":
+        sort = request.POST["sort_by"]
+        listings = Listing.objects.filter(isActive=True).order_by(sort)
+        try:
+            asc = request.POST["asc"]
+            listings = listings.reverse()
+        except:
+            asc = "off"
+        form = sort_form(request.POST)
         
-    })
+        return render(request, "auctions/index.html", {
+            'listings': listings,
+            'bids': Bids.objects.all(),
+            'form': form
+        })
+        
+    else: 
+        form = sort_form()
+        return render(request, "auctions/index.html", {
+            'listings': Listing.objects.filter(isActive=True).order_by('datetime'),
+            'bids': Bids.objects.all(),
+            'form': form
+        })
 
 
 def login_view(request):

@@ -2,10 +2,13 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 CATEGORIES = {
+    "Accessories": "Accessories",
     "Electronics": "Electronics",
     "Clothes": "Clothes",
-    "Accessories": "Accessories",
-    "Health and Beauty": "Health and Beauty",
+    "Food & Beverage": "Food & Beverage",
+    "Health and Beauty": "Health & Beauty",
+    "Furniture and Decor": "Furniture and Decor",
+    "Sport" : "Sport",
     "Other" : "Other"
 }
 

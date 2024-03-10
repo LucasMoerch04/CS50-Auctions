@@ -1,25 +1,29 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <h2>Your watchlist</h2>
+    
 
+    <div class="box">
+        <h2 id="lal">Your Watchlist</h2>
     {% for listing in listings %}
-    <div>
-        <a href="listing/{{ listing.id }}">
-            <b>{{ listing.title }}</b>
-            <br>
-            {{ listing.description }}
-            <i>{{ listing.price.bid }}</i>
-            {{ listing.datetime}}
-            {{ listing.seller}}
-            {% if listing.image != None%}
-                <img src="{{listing.image}}">
-            {% endif %}
-        </a>
-    </div>
-        <br>
-        <br>
-        <br>
-
+        <div class="card">
+            <a href="listing/{{ listing.id }}">
+                {% if listing.image != None%}
+                    <img src="{{listing.image}}">
+                {% endif %}
+                <div class="card-top">
+                    <b id="card_title">{{ listing.title }}</b>
+                    <i id="price">${{ listing.price.bid }}</i>
+                </div>
+                <br>
+                <div id="description">{{ listing.description }}</div>
+                <div class="card-bottom">
+                    <div id="date"><i class="fa-solid fa-calendar-days"></i>  {{ listing.datetime}}</div>
+                    <div id="seller"> <i class="fa-solid fa-user"></i>  {{ listing.seller}}</div>
+                </div>
+            </a>
+        </div>
     {% endfor %}
+        
+
 {% endblock %}

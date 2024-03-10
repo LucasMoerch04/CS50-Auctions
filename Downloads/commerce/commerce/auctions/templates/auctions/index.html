@@ -3,9 +3,15 @@
 
 {% block body %}
     
-    
-    <div class="container">
-        <h2 id="lal">Latest Active Listings</h2>
+    <h2 id="lal">Latest Active Listings</h2>
+    <div id="filter-box">
+        <form id="sort" method="POST" action="{% url 'index' %}">
+            {% csrf_token %}
+            {{ form }}
+        </form>
+    </div>
+    <div class="box">
+        
     {% for listing in listings %}
         <div class="card">
             <a href="listing/{{ listing.id }}">
@@ -17,7 +23,9 @@
                     <i id="price">${{ listing.price.bid }}</i>
                 </div>
                 <br>
-                <div id="description">{{ listing.description }}</div>
+                <div id="desc-box">
+                    <div id="description">{{ listing.description }}</div>
+                </div>
                 <div class="card-bottom">
                     <div id="date"><i class="fa-solid fa-calendar-days"></i>  {{ listing.datetime}}</div>
                     <div id="seller"> <i class="fa-solid fa-user"></i>  {{ listing.seller}}</div>
