@@ -1,32 +1,38 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    
-    <form action="{% url 'create_listing' %}" method="post">
-        {% csrf_token %}
-        <div class="form-group">
-            <input class="form-control" required autofocus type="text" name="title" placeholder="Title">
-        </div>
-        <div class="form-group">
-            <input class="form-control" required type="text" name="description" placeholder="Description">
-        </div>
-        <div class="form-group">
-            <input class="form-control" required type="number" name="price" placeholder="Starting bid">
-        </div>
-        <div class="form-group">
-            <select class="form-control" type="text" name="category" placeholder="category">
-                <option value="" disabled selected> Category</option>
-                {% for category in CATEGORIES %}
-                <option value={{category}}> {{category}}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="form-group">
-            <input class="form-control" type="text" name="imageurl" placeholder="Image URL">
-        </div>
-        <input class="btn btn-primary" type="submit" value="Create Listing">
+    <div class="createContainer">
+        <div class="createCard">
+            <div class="formDiv">
+                <h2 class="cardTitle"> Create listing </h2>
+            </div>
+            <form action="{% url 'create_listing' %}" method="post">
+                {% csrf_token %}
+                <div class="formDiv">
+                    <input class="formInput" required autofocus type="text" name="title" placeholder="Title (max 64 characters)">
+                </div>
+                <div class="formDiv">
+                    <input class="formInput" required type="text" name="description" placeholder="Description (max 600 characters)">
+                </div>
+                <div class="formDiv">
+                    <input class="formInput" required type="number" name="price" placeholder="Starting bid ($)">
+                </div>
+                <div class="formDiv">
+                    <select class="formInput" type="text" name="category" placeholder="category">
+                        <option value="" disabled selected> Category</option>
+                        {% for category in CATEGORIES %}
+                        <option value={{category}}> {{category}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="formDiv">
+                    <input class="formInput" type="text" name="imageurl" placeholder="Image URL">
+                </div>
+                <div class="formDiv">
+                    <input class="btn btnInput" type="submit" value="Create Listing">
+                </div>
 
-    </form>
-
-
+            </form>
+        </div>
+    </div>
 {% endblock %}

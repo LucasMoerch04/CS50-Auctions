@@ -6,7 +6,7 @@
         <h2 id="lal">Listings in the category: {{category}}</h2>
     {% for listing in listings %}
         <div class="card">
-            <a href="listing/{{ listing.id }}">
+            <a href="/listing/{{ listing.id }}">
                 {% if listing.image != None%}
                     <img src="{{listing.image}}">
                 {% endif %}

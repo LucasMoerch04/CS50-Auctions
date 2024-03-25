@@ -2,14 +2,27 @@
     font-family: Inter, Arial, Helvetica, sans-serif;
 }
 
+body::-webkit-scrollbar {
+    width: 0.5em;
+}
+   
+body::-webkit-scrollbar-track {
+    background-color: rgba(110, 91, 164, 0.92);
+}
+   
+body::-webkit-scrollbar-thumb {
+    background-color: rgba(24, 7, 69, 0.62);
+    border-radius: 20px;
+}
+
 *:focus {
-    outline: dashed;
-    outline-color: rgb(200, 200, 206);
+    outline: solid;
+    outline-color: rgba(200, 200, 206, 0.599);
 }
 
 body {
     padding: 10px;
-    background-color: rgba(19, 19, 37, 1);    
+    background-image: url("img/abstract-paper-style-background_23-2150744372.jpg");
 }
 
 .logo {
@@ -47,15 +60,16 @@ body {
     top: 10px;
     left: 50%;
     transform: translate(-50%, 0%);
-    background-color: rgba(23, 26, 36, 1);
+    background-color: rgba(23, 26, 36, 0.95);
     width: 800px;
     height: 55px;
     border-radius: 47px;
     box-shadow: 0px 4px 10px rgba(1, 7, 16, 0.25);
+    
 }
 
 .nav-two {
-    background-color: rgba(27, 30, 43, 1);
+    background-color: rgba(27, 30, 43, 0.2);
     width: 630px;
     height: 55px;
     border-radius: 47px;
@@ -67,6 +81,7 @@ body {
     bottom: 0%;
     padding-top: 16px;
     width: fit-content;
+    
     padding-right: 20px;
     height: 100%;
 }
@@ -83,12 +98,14 @@ body {
 .nav-btn:hover {
     transition: 200ms ease-in;
     background-color: rgba(135, 154, 207, 0.24);
+    text-decoration: none;
 }
 
 .nav-btn.active {
     background-color: rgba(135, 154, 207, 0.729);
     box-shadow: 0px 4px 10px rgba(115, 171, 255, 0.25);
     font-weight: 600;
+    
 }
 
 .nav-btn.active:hover{
@@ -120,7 +137,7 @@ body {
     width: 130px;
     text-align: center;
     margin-right: 10px;
-    background-color: rgba(255, 107, 0, 1);  
+    background-color: rgba(255, 107, 0, 0.9);  
     border-radius: 47px; 
     padding-top: 10px;
 }
@@ -129,7 +146,10 @@ body {
     transition: 500ms;
     background: rgb(231,2,2);
     background: linear-gradient(283deg, rgba(231,2,2,1) 0%, rgba(255,107,0,1) 50%, rgba(231,2,2,1) 100%);
+}
 
+#create_listing:focus i½{
+    outline: none;
 }
 
 #create_listing i {
@@ -137,7 +157,7 @@ body {
     padding-left: 50px;
 }
 
-#signin_status {
+.signin_status {
     position: absolute;
     top: 1%;
     right: 1%;
@@ -147,13 +167,13 @@ body {
     font-size: 16px;
 }
 
+.signin_status li a {
+    font-size: 14px;
+    color: #ffd7d7;
+}
+
 #username {
     font-size: 20px;
-    background: -webkit-linear-gradient(right,rgba(135,154,207,0.73) 0%, rgba(255,107,0,1) 50%, rgba(135,154,207,1) 100%);
-    background-clip: border-box;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    
     
 }
 
@@ -269,7 +289,7 @@ label[for="id_asc"]:active {
 
 .card {
     margin-top: 2%;
-    background-color: rgba(36, 43, 64, 1);
+    background-color: rgba(36, 43, 64, 0.9);
     width: 300px;
     height: 430px;
     border-radius: 30px;
@@ -312,15 +332,15 @@ img {
     font-weight: bolder;
     font-size: 24px;
     margin-left: 20px;
-    height: 30px;
-    overflow: visible;
+    height: 50px;
+    overflow: hidden;
     max-width: 160px;
-    
+
 }
 
 #desc-box {
     height: 130px;
-    
+    margin-top: -15px;
 }
 
 #description {
@@ -378,4 +398,396 @@ img {
     font-weight: bolder;
     font-size: 16px;
     margin: 10px;
+}
+
+.authContainer, .listingContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.loginCard {
+    margin-top: 2%;
+    background-color: rgba(36, 43, 64, 0.6);
+    width: 500px;
+    height: fit-content;
+    border-radius: 30px;
+    box-shadow: 4px 6px 9px 0px rgba(0, 0, 0, 0.25);
+}
+
+.cardTitle {
+    color: #ffd7d7;
+    font-weight: 600;
+}
+
+.formDiv{
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    
+    
+}
+
+.formInput {
+    width: 80%;
+    font-weight: bold;
+    font-size: 16px;
+    background-color: transparent;
+    border: solid 2px #ffd7d7;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    color: #ffd7d7;
+}
+
+.formInput:disabled, .btnInput:disabled{
+    opacity: 50%;
+}
+
+.formInput::placeholder {
+    color: #fceeee98;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.formInput:focus {
+    outline: none;
+}
+
+.formInput:focus::placeholder {
+    transition: 200ms;
+    color: transparent;
+    font-size: 4px;
+}
+
+.btnInput {
+    color: #ffd7d7;
+    border-radius: 30px;
+    width: fit-content;
+    height: 40px;
+    background-color: rgba(135, 154, 207, 0.729);
+    box-shadow: 0px 4px 10px rgba(115, 171, 255, 0.25);
+    font-weight: 600;
+    border: none;
+}
+
+.btnInput:hover:not([disabled]){
+    color: #ffd7d7;
+    transition: 500ms;
+    background: rgb(36,94,217);
+    background: linear-gradient(283deg, rgba(36,94,217,1) 0%, rgba(135,154,207,0.73) 50%, rgba(36,94,217,1) 100%);
+}
+
+.regText {
+    color: #ffd7d7cb;
+    height: 40px;
+
+}
+
+.regLink {
+    color: #fceeee;
+    text-decoration: underline;
+}
+
+.regLink:hover {
+    color: #fceeee;
+}
+
+#loginMessage {
+    position: absolute;
+    color:#d93939;
+    margin-top: 10px;
+    margin-left: 50px
+}
+
+
+.listingCard {
+    margin-top: 2%;
+    background-color: rgba(36, 43, 64, 0.9);
+    width: 70%;
+    height: fit-content;
+    border-radius: 30px;
+    box-shadow: 4px 6px 9px 0px rgba(0, 0, 0, 0.25);
+}
+
+.commentSection {
+    margin: 20px;
+    margin-top: 100px;
+}
+
+.commentSection .btnInput {
+    margin-left: 10px;
+    background-color: #888bab86;
+}
+
+.commentTitle{
+    color: #ffd7d7;
+    font-weight: bolder;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.commentForm {
+    width: 70%;
+    min-height: 40px;
+}
+
+.comment {
+    display: flex;
+    flex-wrap: wrap;
+    color: #ffd7d7;
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: solid 1px #7388c878;
+}
+
+.comment:last-child {
+    border-bottom: solid 1px #7388c878;
+    padding-bottom: 10px;
+
+}
+
+.comment span {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.topListing {
+    display: flex;
+    height: 40vh;
+}
+
+.leftListing {
+    width: fit-content;
+}
+
+.listingImage {
+    
+    width: 35vw;
+    height: 100%;
+    object-fit: cover;
+    border-top-right-radius: 0;
+}
+
+.rightListing {
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    
+}
+
+.listingTitle {
+    color: #ffd7d7;
+    font-weight: 600;
+    font-size: 26px;
+    width: 60%;
+    height: fit-content;
+}
+
+.priceListing {
+    margin-top: 0px;
+    color: #ffd7d7;
+    font-weight: 200;
+    font-size: 16px;
+    height: fit-content;
+}
+
+.priceListing span {
+    font-weight: 300;
+}
+
+.priceListing .userGradient {
+    font-weight: 600;
+    font-size: 18px;
+}
+.userGradient {
+    background: -webkit-linear-gradient(right,rgba(135,154,207,0.73) 0%, rgba(255,107,0,1) 50%, rgba(135,154,207,1) 100%);
+    background-clip: border-box;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.bookmark {
+    color: #ffd7d7;
+    font-size: 18px;
+    filter: drop-shadow(2px 1px 1px #f4f4ff89);
+}
+.watchlist {
+    padding: 5px;
+    width: fit-content;
+}
+
+.watchlistButton, .watchlistButtonAdd {
+    background-color: transparent;
+    border: none;
+    font-size: 12px;
+    width: fit-content;
+    height: auto;
+}
+@media screen and (max-width:1400px) {
+    .listingTitle {
+        width: 80%;
+    }
+}
+
+
+@media screen and (min-width:1400px){
+    .watchlistButton::before {
+        content: 'Remove From Watchlist';
+        font-size: 0px;
+
+    }
+    .watchlistButtonAdd::before {
+        content: 'Add to watchlist';
+        font-size: 0px;
+    }
+
+    .watchlistButton:hover::before, .watchlistButtonAdd:hover::before {
+        color: #ffd7d7;
+        font-size: 0.7rem;
+        font-weight: 600;
+        padding-right: 5px;
+        min-width: 40px;
+        width: fit-content;
+        height: 100px;
+        transition: 300ms;
+    }
+
+    .watchlist:hover {
+        background: rgb(36,94,217);
+        background: linear-gradient(283deg, rgba(36,94,217,1) 0%, rgba(135,154,207,0.73) 50%, rgba(36,94,217,1) 100%);
+        box-shadow: 0px 4px 10px rgba(115, 171, 255, 0.25);
+        border: none;
+        border-radius: 30px;   
+    }
+}
+
+.listingDescription {
+    color: #ffd7d7d2;
+    font-weight: lighter;
+    height: 22vh;
+    margin-top: 20px;
+    overflow-y: auto;
+    scrollbar-color: rgb(107, 103, 158) transparent ;
+    scrollbar-width: thin;
+}
+
+.listingBid {
+    display: inline;
+    
+    width: 100%;
+}
+
+.listingBid .formInput {
+    width: 170px;
+    margin-right: 10px;
+}
+
+.underImage {
+    font-size: 16px;
+    margin-top: 10px;
+    font-weight: 300;
+}
+
+#bidMessage {
+    color: rgba(220, 20, 20, 0.832);
+    font-weight: 300;
+}
+
+
+
+#closeMessage {
+    color: rgb(96, 102, 170);
+    font-size: 18px;
+}
+
+.close {
+    opacity: 100%;
+}
+
+#closeAuction {
+    background-color: rgb(214, 38, 38);
+    font-weight: 600;
+    font-size: 16px;
+}
+
+#closeAuction:hover {
+    transition: 200ms;
+    background: rgb(244, 0, 0);
+    background: linear-gradient(283deg, rgb(255, 0, 0) 0%, rgb(192, 70, 70) 50%, rgba(216, 19, 19) 100%);
+    transform: scale(1.02);
+}
+
+.winCard {
+    position: fixed;
+    left: 33%;
+    top: 40%;
+    background-color: rgba(23, 29, 51, 0.9);
+    width: 500px;
+    height: 120px;
+    border-radius: 30px;
+    box-shadow: 8px 12px 18px 0px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    animation: slideIn 900ms;
+}
+
+@keyframes slideIn {
+    from {
+        transform: scale(0.1);
+    }
+    to {
+        transform: scale(1);
+
+    }
+}
+
+.winText {
+    color: #ffd7d7;
+    font-weight: 600;
+}
+
+.winText2 {
+    color: #ffd7d7;
+    font-weight: 400;
+    font-size: 12px;
+    margin-bottom: 20px;
+}
+
+.winText3 {
+    color: #9b9393;
+    font-weight: 400;
+    font-size: 10px;
+}
+
+.winCard.disabled {
+    display: none;
+}
+
+.createContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.createCard {
+    margin-top: 2%;
+    background-color: rgba(36, 43, 64, 0.6);
+    width: 500px;
+    height: fit-content;
+    border-radius: 30px;
+    box-shadow: 4px 6px 9px 0px rgba(0, 0, 0, 0.25);
+    padding-bottom: 20px;
+}
+
+.createCard option {
+    background-color: rgba(83, 135, 239, 0.89);
+    border: none;
+    font-size: 14;
+    font-weight: 600;
+    height: 200px;
 }

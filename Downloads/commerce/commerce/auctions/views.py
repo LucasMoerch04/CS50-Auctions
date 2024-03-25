@@ -59,7 +59,7 @@ def login_view(request):
             return HttpResponseRedirect(reverse("index"))
         else:
             return render(request, "auctions/login.html", {
-                "message": "Invalid username and/or password."
+                "message": "*Invalid username and/or password."
             })
     else:
         return render(request, "auctions/login.html")
@@ -80,7 +80,7 @@ def register(request):
         confirmation = request.POST["confirmation"]
         if password != confirmation:
             return render(request, "auctions/register.html", {
-                "message": "Passwords must match."
+                "message": "*Passwords must match."
             })
 
         # Attempt to create new user
@@ -89,7 +89,7 @@ def register(request):
             user.save()
         except IntegrityError:
             return render(request, "auctions/register.html", {
-                "message": "Username already taken."
+                "message": "*Username already taken."
             })
         login(request, user)
         return HttpResponseRedirect(reverse("index"))
@@ -125,9 +125,9 @@ def listing_page_view(request, listing_id, isOnWatchlist = False):
         listing = Listing.objects.get(id=listing_id) 
         
         bidMessage = request.GET.get('bidMessage', None)
-        latestBidder = request.GET.get('bidder', None)
         
-        user = request.user
+        # Get latest bidder
+        latestBidder = Bids.objects.filter(listing=listing).latest('id').user
         
         isOwner = False
         try: 
@@ -135,20 +135,33 @@ def listing_page_view(request, listing_id, isOnWatchlist = False):
             print(comments)
         except Comment.DoesNotExist:
             comments = None
-            print("fail")
+            
+        seller = listing.seller
+        try: 
+            user = request.user
+                #Render listing page for anonymous users
         
-        
-        if user == listing.seller:
-            isOwner = True
+        except:
+            user = None
+            return render(request, "auctions/listing_page.html", {
+            "listing": listing,
+            'bids': Bids.objects.all(),
+            'bidMessage': bidMessage,
+            'latestBidder': latestBidder,
+            'comments': comments,
+            'seller': seller,
+            
+            })
         
         try: 
             Watchlist.objects.get(user=user, item_id=listing_id)
             isOnWatchlist = True
-        except Watchlist.DoesNotExist:
+            
+        except:
             isOnWatchlist = False
-        
-        
-        
+
+        if user == seller:
+            isOwner = True
         
         return render(request, "auctions/listing_page.html", {
             "listing": listing,
@@ -158,7 +171,8 @@ def listing_page_view(request, listing_id, isOnWatchlist = False):
             'isOwner': isOwner,
             'latestBidder': latestBidder,
             'comments': comments,
-            'user': user
+            'user': user,
+            'seller': seller,
             })
        
         
@@ -211,24 +225,33 @@ def category_page_view(request, chosenCategory):
 
 def bid(request, listing_id):
     if request.method == "POST":
-        userBid = request.POST.get("bid")
-        userBid = int(userBid)
-        user = request.user
         listing = Listing.objects.get(pk=listing_id)
-        
-        if userBid > listing.price.bid:
-            bid = Bids(bid=userBid, user=user)
-            bid.save()
+        try:
+            userBid = request.POST.get("bid")
+            userBid = int(userBid)
+            user = request.user
             
-            listing.price = bid
-            listing.save()
-            
-            bidder = user
-            bidMessage = "Your bid has been placed"
-        else:
-            bidMessage = "Your bid must be higher than current bid"
+            if userBid > listing.price.bid:
+                bid = Bids(bid=userBid, user=user)
+                bid.save()
+                
+                listing.price = bid
+                listing.save()
+                
+                try: 
+                    watchlist = Watchlist.objects.get(user=user, item_id=listing_id)
+                except Watchlist.DoesNotExist:
+                    addToWatchlist = Watchlist.objects.create(item_id = listing_id, checked=False)
+                    addToWatchlist.user.add(user)
+                
+                bidMessage = "success"
+            else:
+                bidMessage = "failed"
+        except:
+            bidMessage = "failed"
+
     
-        return HttpResponseRedirect(reverse("listing_page", args=(listing_id,)) + f"?bidMessage={bidMessage}&bidder={bidder}")
+        return HttpResponseRedirect(reverse("listing_page", args=(listing_id,)) + f"?bidMessage={bidMessage}")
     
     
 def comment(request, listing_id):
